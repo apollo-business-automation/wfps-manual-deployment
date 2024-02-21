@@ -1574,9 +1574,9 @@ type: Opaque
 " | oc apply -f -
 ```
 
-Add minimal CP4BA CR
+Create CP4BA Deployment yaml file
 ```bash
-echo "
+cat >/usr/install/wfps-test/cp4ba.yaml <<EOF
 apiVersion: icp4a.ibm.com/v1
 kind: ICP4ACluster
 metadata:
@@ -1637,7 +1637,12 @@ spec:
   ## this field is required to deploy Resource Registry (RR)
   resource_registry_configuration:
     replica_size: 1
-" | oc apply -f -
+EOF
+```
+
+Add minimal CP4BA CR
+```bash
+oc apply -f /usr/install/wfps-test/cp4ba.yaml
 ```
 
 Wait for the deployment to be completed. This can be determined by looking in Project wfps-test in Kind ICP4ACluster, instance named icp4adeploy to have the following conditions:
@@ -1675,7 +1680,7 @@ Create WfPS DB in PostgreSQL
 
 ```bash
 # Create SQL file
-cat >/usr/install/wfps-test/wfps-test.sql <<EOL
+cat >/usr/install/wfps-test/wfps-test.sql <<EOF
 -- create the user
 CREATE ROLE testwfps WITH INHERIT LOGIN ENCRYPTED PASSWORD 'Password';
 
@@ -1686,7 +1691,7 @@ CREATE DATABASE testwfps WITH OWNER testwfps ENCODING 'UTF8';
 \c testwfps;
 CREATE SCHEMA IF NOT EXISTS testwfps AUTHORIZATION testwfps;
 GRANT ALL ON schema testwfps to testwfps;
-EOL
+EOF
 
 # Copy the SQL to postgresql
 oc cp /usr/install/wfps-test/wfps-test.sql \
