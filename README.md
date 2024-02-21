@@ -1608,6 +1608,12 @@ spec:
     no_log: false  # Added manually for better logging
     sc_iam:
       default_admin_username: cpfsadmin # Added manually to customize CPFS admin username
+    sc_egress_configuration:
+      sc_api_namespace: null
+      sc_api_port: null
+      sc_dns_namespace: null
+      sc_dns_port: null
+      sc_restricted_internet_access: true
   ldap_configuration: # Added manually for LDAP connection
     lc_ldap_user_display_name_attr: cn
     lc_ldap_group_base_dn: 'ou=Groups,dc=cp,dc=internal'
