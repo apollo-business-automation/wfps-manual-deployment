@@ -1,6 +1,6 @@
 # Workflow Process Service deployment manual installation ✍️<!-- omit in toc -->
 
-For version 23.0.2 iFix 1
+For version 23.0.2 iFix 2
 
 Installs WfPS environment.
 
@@ -14,7 +14,7 @@ Installs WfPS environment.
     - [Access info after deployment](#access-info-after-deployment)
   - [PostgreSQL](#postgresql)
     - [Access info after deployment](#access-info-after-deployment-1)
-- [Workflo Process Service Development Environment](#workflo-process-service-development-environment)
+- [Workflow Process Service Development Environment](#workflow-process-service-development-environment)
   - [Preparing a client to connect to the cluster](#preparing-a-client-to-connect-to-the-cluster-1)
   - [Setting up the cluster by running a script](#setting-up-the-cluster-by-running-a-script)
   - [Prepare property files](#prepare-property-files)
@@ -688,7 +688,7 @@ PostgreSQL
 - cpadmin / Password
 - In PostgreSQL Pod terminal `psql postgresql://cpadmin@localhost:5432/postgresdb`
 
-## Workflo Process Service Development Environment
+## Workflow Process Service Development Environment
 
 Based on https://www.ibm.com/docs/en/cloud-paks/cp-biz-automation/23.0.2?topic=deployments-installing-cp4ba-multi-pattern-production-deployment
 
@@ -704,11 +704,11 @@ mkdir /usr/install/wfps-dev
 
 # Download the package
 curl https://raw.githubusercontent.com/IBM/cloud-pak/master/repo/case/\
-ibm-cp-automation/5.1.1/ibm-cp-automation-5.1.1.tgz \
---output /usr/install/wfps-dev/ibm-cp-automation-5.1.1.tgz
+ibm-cp-automation/5.1.2/ibm-cp-automation-5.1.2.tgz \
+--output /usr/install/wfps-dev/ibm-cp-automation-5.1.2.tgz
 
 # Extract the package
-tar xzvf /usr/install/wfps-dev/ibm-cp-automation-5.1.1.tgz -C /usr/install/wfps-dev/
+tar xzvf /usr/install/wfps-dev/ibm-cp-automation-5.1.2.tgz -C /usr/install/wfps-dev/
 
 # Extract cert-kubernetes
 tar xvf /usr/install/wfps-dev/ibm-cp-automation/inventory/\
@@ -1212,6 +1212,13 @@ sed -i \
 cp4aOperatorSdk/files/deploy/crs/cert-kubernetes/scripts/generated-cr/ibm_cp4a_cr_final.yaml
 ```
 
+Remove SCIM configuration as we do not need to make changes. For real deployments one needs to configure this section following the guidance at https://www.ibm.com/docs/en/cloud-paks/cp-biz-automation/23.0.2?topic=parameters-ldap-configuration#ldap_kubernetes__scim__title__1
+```bash
+yq -i 'del(.spec.scim_configuration_iam)' \
+/usr/install/wfps-dev/ibm-cp-automation/inventory/\
+cp4aOperatorSdk/files/deploy/crs/cert-kubernetes/scripts/generated-cr/ibm_cp4a_cr_final.yaml
+```
+
 If you want to see all debug output in operator logs add the following properties (Not for production use, can leak sensitive info!)
 ```bash
 yq -i '.spec.shared_configuration.no_log = false' \
@@ -1409,11 +1416,11 @@ mkdir /usr/install/wfps-test
 
 # Download the package
 curl https://raw.githubusercontent.com/IBM/cloud-pak/master/repo/case/\
-ibm-cp-automation/5.1.1/ibm-cp-automation-5.1.1.tgz \
---output /usr/install/wfps-test/ibm-cp-automation-5.1.1.tgz
+ibm-cp-automation/5.1.2/ibm-cp-automation-5.1.2.tgz \
+--output /usr/install/wfps-test/ibm-cp-automation-5.1.2.tgz
 
 # Extract the package
-tar xzvf /usr/install/wfps-test/ibm-cp-automation-5.1.1.tgz -C /usr/install/wfps-test/
+tar xzvf /usr/install/wfps-test/ibm-cp-automation-5.1.2.tgz -C /usr/install/wfps-test/
 
 # Extract cert-kubernetes
 tar xvf /usr/install/wfps-test/ibm-cp-automation/inventory/\
