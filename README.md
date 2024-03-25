@@ -1629,6 +1629,28 @@ spec:
 EOF
 ```
 
+Based on https://www.ibm.com/docs/en/cloud-paks/cp-biz-automation/23.0.2?topic=cpd-option-2b-deploying-custom-resource-you-created-deployment-script
+
+Add permissive network policy to enable anything from wfps-test namespace to reach to anything (TODO - workaround, last needed 23.0.2.2 - will be removed)
+```bash
+echo "
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: custom-permit-all-egress
+  namespace: wfps-test
+spec:
+  podSelector: {}
+  policyTypes:
+    - Egress
+  egress:
+    - to:
+        - ipBlock:
+            cidr: '10.2.1.0/0'
+            except: []
+" | oc apply -f -
+```
+
 Add minimal CP4BA CR
 ```bash
 oc apply -f /usr/install/wfps-test/cp4ba.yaml
