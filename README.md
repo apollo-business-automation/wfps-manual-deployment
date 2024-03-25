@@ -1226,13 +1226,13 @@ cp4aOperatorSdk/files/deploy/crs/cert-kubernetes/scripts/generated-cr/ibm_cp4a_c
 
 Based on https://www.ibm.com/docs/en/cloud-paks/cp-biz-automation/23.0.2?topic=cpd-option-2b-deploying-custom-resource-you-created-deployment-script
 
-Add permissive network policy to enable the deployment to reach to LDAP and DB (TODO - workaround, last needed 23.0.2.1)
+Add permissive network policy to enable anything from wfps-dev namespace to reach to anything (TODO - workaround, last needed 23.0.2.2 - will be removed)
 ```bash
 echo "
 kind: NetworkPolicy
 apiVersion: networking.k8s.io/v1
 metadata:
-  name: custom-permit-db-egress
+  name: custom-permit-all-egress
   namespace: wfps-dev
 spec:
   podSelector: {}
@@ -1240,27 +1240,9 @@ spec:
     - Egress
   egress:
     - to:
-        - podSelector: {}
-          namespaceSelector:
-            matchLabels:
-              kubernetes.io/metadata.name: wfps-postgresql
-" | oc apply -f -
-echo "
-kind: NetworkPolicy
-apiVersion: networking.k8s.io/v1
-metadata:
-  name: custom-permit-ldap-egress
-  namespace: wfps-dev
-spec:
-  podSelector: {}
-  policyTypes:
-    - Egress
-  egress:
-    - to:
-        - podSelector: {}
-          namespaceSelector:
-            matchLabels:
-              kubernetes.io/metadata.name: wfps-openldap
+        - ipBlock:
+            cidr: '10.2.1.0/0'
+            except: []
 " | oc apply -f -
 ```
 
