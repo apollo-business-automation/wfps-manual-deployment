@@ -14,7 +14,7 @@ Installs WfPS environment.
     - [Access info after deployment](#access-info-after-deployment)
   - [PostgreSQL](#postgresql)
     - [Access info after deployment](#access-info-after-deployment-1)
-- [Workflow Process Service Development Environment](#workflow-process-service-development-environment)
+- [Workflow Process Service Development Environment (Authoring)](#workflow-process-service-development-environment-authoring)
   - [Preparing a client to connect to the cluster](#preparing-a-client-to-connect-to-the-cluster-1)
   - [Setting up the cluster by running a script](#setting-up-the-cluster-by-running-a-script)
   - [Prepare property files](#prepare-property-files)
@@ -27,7 +27,7 @@ Installs WfPS environment.
   - [Completing post-installation tasks](#completing-post-installation-tasks)
   - [Validating your production deployment](#validating-your-production-deployment)
   - [Next steps](#next-steps)
-- [Workflow Process Service Test Environment](#workflow-process-service-test-environment)
+- [Workflow Process Service Test Environment (Runtime)](#workflow-process-service-test-environment-runtime)
   - [Preparing a client to connect to the cluster](#preparing-a-client-to-connect-to-the-cluster-2)
   - [Setting up the cluster by running a script](#setting-up-the-cluster-by-running-a-script-1)
   - [Deploy minmal CP4BA](#deploy-minmal-cp4ba)
@@ -81,7 +81,7 @@ Requested tooling provided in the install Pod.
 
 ### Creating an install client directly in OCP
 
-In you OCP cluster create Project *wfps-install* using OpenShift console.
+In your OCP cluster create Project *wfps-install* using OpenShift console.
 ```yaml
 kind: Project
 apiVersion: project.openshift.io/v1
@@ -201,7 +201,7 @@ bash
 
 ## Prerequisite software
 
-CP4BA needs at least LDAP and Database. In this deployment OpenLDAP and PostgreSQL are used.
+CP4BA needs at least LDAP and a Database. In this deployment OpenLDAP and PostgreSQL are used.
 
 You would normally use your own production ready instances.
 
@@ -688,7 +688,7 @@ PostgreSQL
 - cpadmin / Password
 - In PostgreSQL Pod terminal `psql postgresql://cpadmin@localhost:5432/postgresdb`
 
-## Workflow Process Service Development Environment
+## Workflow Process Service Development Environment (Authoring)
 
 Based on https://www.ibm.com/docs/en/cloud-paks/cp-biz-automation/23.0.2?topic=deployments-installing-cp4ba-multi-pattern-production-deployment
 
@@ -1330,7 +1330,7 @@ https://cpd-wfps-dev.${apps_endpoint}/usermgmt/v1/user/cpadmin?add_roles=true
 
 Based on https://www.ibm.com/docs/en/cloud-paks/cp-biz-automation/23.0.2?topic=deployment-recommended-validating-your-production
 
-You can further verify the environemnts and get important information. But before running anything else then --help follow additional steps for script configuration.
+You can further verify the environments and get important information. But before running anything else then --help follow additional steps for script configuration.
 ```bash
 oc project wfps-dev
 /usr/install/wfps-dev/ibm-cp-automation/inventory/\
@@ -1402,7 +1402,7 @@ Custom CPFS admin password - follow https://www.ibm.com/docs/en/cloud-paks/cp-bi
 
 Custom Zen certificates - follow https://www.ibm.com/docs/en/cloud-paks/cp-biz-automation/23.0.2?topic=security-customizing-cloud-pak-entry-point
 
-## Workflow Process Service Test Environment
+## Workflow Process Service Test Environment (Runtime)
 
 Based on https://www.ibm.com/docs/en/cloud-paks/cp-biz-automation/23.0.2?topic=deployments-installing-cp4ba-multi-pattern-production-deployment
 
